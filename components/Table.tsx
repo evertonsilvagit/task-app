@@ -1,11 +1,16 @@
-export default function Table({ data, setData, ...props }) {
+import { useState } from "react";
+
+export default function Table({ data, setData, handleAlterar, ...props }) {
+
+    const [newText, setNewText] = useState("");
+
     const handleInputChange = (index, newValue) => {
-        data[index].display = newValue;
+        data[index].text = newValue;
         setData([...data]);
     };
 
-    const handleSave = (index) => {
-        data[index].isAlterar = !data[index].isAlterar;
+    const handleInputChangeDispatch = (index, newValue) => {
+        data[index].text = newValue;
         setData([...data]);
     };
 
@@ -26,13 +31,14 @@ export default function Table({ data, setData, ...props }) {
                                         }}
                                         />
                                 </td>
+                                <td>{item.id}</td>
                                 <td>
                                 {
-                                        !item.isAlterar ? (<p>{item.display}</p>) : (
+                                        !item.isAlterar ? (<p>{item.text}</p>) : (
                                             <input 
-                                                ref={props.newInputRef}
                                                 placeholder={item.display}
-                                                onChange={(e) => handleInputChange(index, e.target.value)}
+                                                onChange={(e) => setNewText(e.target.value)}
+                                                
                                             />
                                         )
                                 }
@@ -52,7 +58,12 @@ export default function Table({ data, setData, ...props }) {
                                         ) : (
                                             <button 
                                                 className="bg-green-500 hover:bg-green-700 text-white rounded w-20 px-5 h-10" 
-                                                onClick={() => handleSave(index)}
+                                                onClick={() => handleAlterar({
+                                                    id: item.id,
+                                                    isSelected: item.isSelected,
+                                                    isAlterar: false,
+                                                    text: newText
+                                                })}
                                             >
                                                 Salvar
                                             </button>
