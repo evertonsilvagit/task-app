@@ -1,29 +1,36 @@
 import { createContext } from "react";
 
-export const TableContext = createContext([
+export const TaskContext = createContext([
     {
+        id: 1,
         isAlterar: false,
         isSelected: false,
-        display: "Criar Layout no Figma"
+        text: "Criar Layout no Figma"
     },
     {
+        id: 2,
         isAlterar: false,
         isSelected: false,
-        display: "Desenvolver Front-End"
+        text: "Desenvolver Front-End"
     },
     {
+        id: 3,
         isAlterar: false,
         isSelected: false,
-        display: "Desenvolver Back-End"
+        text: "Desenvolver Back-End"
     },
     {
+        id: 4,
         isAlterar: false,
         isSelected: false,
-        display: "Criar API"
+        text: "Criar API"
     },
     {
+        id: 5,
         isAlterar: false,
         isSelected: false,
-        display:"Publicar no Github"
+        text: "Publicar no Github"
     }
 ]);
+
+export const TaskDispatchContext = createContext(null);
