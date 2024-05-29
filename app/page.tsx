@@ -4,9 +4,9 @@ export default function Page(){
 
     return (
         <div className="flex justify-center pt-5">
-            <nav className="flex flex-col justify-center text-center">
+            <nav className="flex flex-col items-center text-4xl">
                 <Link href="/tasks">Tasks</Link>
-                <Link href="/tasksWithContext">Tasks With Context</Link>
+                <Link href="/calculate">Calculate</Link>
             </nav>
         </div>
     );

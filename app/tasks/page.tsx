@@ -1,16 +1,34 @@
 "use client";
 
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Table from '../../components/Table';
 import taskReducer from '../../components/taskReducer';
-import initialTasks from '../../components/tasks.json';
 import Link from 'next/link';
 import { TaskContext, TaskDispatchContext } from '../../components/TaskContext';
 
-export default function Home() {
+async function listTasks() {
+    const res = await fetch('http://localhost:8080/todo-list-mrv/api/v1/task')
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch data')
+      }
+
+    return res.json()
+}
+
+export default function TasksPage() {
+
+    let initialTasks = listTasks();
+    console.log(initialTasks)
 
     const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
-    const [selectedTasks, setSelectedTaks] = useState([]);
+    
+    useEffect(() => {
+        async function fetchTasks() {
+            const tasks = await listTasks();
+        }
+
+    });
 
     function handleAdicionar(){
         dispatch({
@@ -18,41 +36,22 @@ export default function Home() {
         })
     }
 
-    function handleAlterar(task){
-        dispatch({
-            type: 'alterado',
-            task: task
-        })
-    }
-
     function handleExcluir(){        
         dispatch({
             type: 'excluido',
-            task: tasks,
-            selectedTasks: selectedTasks
+            task: tasks
         })
     }
 
-    function handleSelecionar(task){
-
-        setSelectedTaks([
-            ...selectedTasks,
-            task.id,
-        ]);
-
-        console.log(task);
-        console.log(selectedTasks)
-    }
-    
     return (
         <TaskContext.Provider value={tasks}>
             <TaskDispatchContext.Provider value={dispatch}>
-                <div className="flex flex-col m-10">
-                    <Link href="/">Home</Link>
-                    <div className="mt-20">
+                <div className="flex items-center flex-col m-10">
+                    <Link className="text-3xl" href="/">Home</Link>
+                    <div>
                         <Table />
                     </div>
-                    <div className="flex justify-start mt-4 gap-6 w-screen">
+                    <div className="flex justify-center mt-4 gap-6 w-screen">
                         <button className="bg-green-500 hover:bg-green-700 text-white rounded w-40 px-5 h-10" onClick={() => handleAdicionar()}>Adicionar</button>
                         <button className="bg-red-500 hover:bg-red-700 text-white rounded w-40 px-5 h-10" onClick={() => handleExcluir()}>Excluir</button>
                     </div>

@@ -3,18 +3,18 @@ import { TaskContext, TaskDispatchContext } from "./TaskContext";
 
 export default function Table() {
 
-    const [newText, setNewText] = useState("");
+    const [newDescription, setNewTask] = useState("");
 
     const data = useContext(TaskContext);
     const dispatch = useContext(TaskDispatchContext);
 
     return (
-        <table className="table-fixed rounded w-11/12">
+        <table className="min-w-96">
             <tbody>
                 {
                     data.map((item, index) => {
                         return (
-                            <tr key={index} className="border-b-2 h-20">
+                            <tr key={index} className="shadow-transparent h-20">
                                 <td>
                                     <input 
                                         type="checkbox" 
@@ -25,10 +25,10 @@ export default function Table() {
                                                 id: item.id,
                                                 isSelected: true,                                                    
                                                 isAlterar: item.isAlterar,
-                                                text: item.text
+                                                description: item.description
                                             }
                                         })}
-                                        />
+                                           />
                                 </td>
                                 <td>{item.id}</td>
                                 <td>
@@ -36,7 +36,7 @@ export default function Table() {
                                         !item.isAlterar ? (<p>{item.text}</p>) : (
                                             <input 
                                                 placeholder={item.text}
-                                                onChange={(e) => setNewText(e.target.value)}
+                                                onChange={(e) => setNewTask(e.target.value)}
                                                 
                                             />
                                         )
@@ -53,7 +53,7 @@ export default function Table() {
                                                         id: item.id,
                                                         isSelected: item.isSelected,                                                    
                                                         isAlterar: true,
-                                                        text: item.text
+                                                        description: item.description
                                                     }
                                                 })}
                                                 >
@@ -68,7 +68,7 @@ export default function Table() {
                                                         id: item.id,
                                                         isSelected: item.isSelected,                                                    
                                                         isAlterar: false,
-                                                        text: newText
+                                                        description: newDescription
                                                     }
                                                 })}
                                             >
