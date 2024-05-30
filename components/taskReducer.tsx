@@ -1,5 +1,16 @@
 export default function taskReducer(tasks, action) {
     switch (action.type) {
+        case 'listado' : {
+
+            return action.tasks.map((task) => {
+                return {
+                    id: task.id,
+                    isAlterar: false,
+                    isSelected: false,
+                    text: task.description
+                }
+            });
+        }
         case 'adicionado' : {
 
             let nextId: number = Math.max(...tasks.map(t => t.id));

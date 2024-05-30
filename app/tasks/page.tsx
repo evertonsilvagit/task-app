@@ -18,15 +18,20 @@ async function listTasks() {
 
 export default function TasksPage() {
 
-    let initialTasks = listTasks();
-    console.log(initialTasks)
-
-    const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
+    const [tasks, dispatch] = useReducer(taskReducer, []);
     
     useEffect(() => {
         async function fetchTasks() {
-            const tasks = await listTasks();
+            return await listTasks();
         }
+        fetchTasks().then((data) => {
+            dispatch({
+                type: 'listado',
+                tasks: data
+            });
+        });
+        
+               
 
     });
 
