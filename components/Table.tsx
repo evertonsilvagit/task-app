@@ -30,14 +30,12 @@ export default function Table() {
                                         })}
                                            />
                                 </td>
-                                <td>{item.id}</td>
                                 <td>
                                     {
-                                        !item.isAlterar ? (<p>{item.text}</p>) : (
+                                        !item.isAlterar ? (<p>{item.description}</p>) : (
                                             <input 
-                                                placeholder={item.text}
+                                                placeholder={item.description}
                                                 onChange={(e) => setNewTask(e.target.value)}
-                                                
                                             />
                                         )
                                     }

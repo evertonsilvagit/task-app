@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Table from '../../components/Table';
 import taskReducer from '../../components/taskReducer';
 import Link from 'next/link';
@@ -24,20 +24,19 @@ export default function TasksPage() {
         async function fetchTasks() {
             return await listTasks();
         }
+        
         fetchTasks().then((data) => {
             dispatch({
                 type: 'listado',
                 tasks: data
             });
         });
-        
-               
 
-    });
+    }, []);
 
-    function handleAdicionar(){
+    function novaLinhaCriada(){
         dispatch({
-            type: 'adicionado',
+            type: 'novaLinhaCriada',
         })
     }
 
@@ -57,7 +56,7 @@ export default function TasksPage() {
                         <Table />
                     </div>
                     <div className="flex justify-center mt-4 gap-6 w-screen">
-                        <button className="bg-green-500 hover:bg-green-700 text-white rounded w-40 px-5 h-10" onClick={() => handleAdicionar()}>Adicionar</button>
+                        <button className="bg-green-500 hover:bg-green-700 text-white rounded w-40 px-5 h-10" onClick={() => novaLinhaCriada()}>Adicionar</button>
                         <button className="bg-red-500 hover:bg-red-700 text-white rounded w-40 px-5 h-10" onClick={() => handleExcluir()}>Excluir</button>
                     </div>
                 </div>
