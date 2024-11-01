@@ -35,9 +35,18 @@ export default function taskReducer(tasks, action) {
                     body: JSON.stringify(action.task)
                 });
                 console.log("Adicionado")
+            } else {
+                fetch('http://localhost:8080/todo-list-mrv/api/v1/task/' + action.task.id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(action.task)
+                });
+                console.log("Alterado")
             }
 
-            return tasks.map((t) => {
+            return tasks.map((t) => { 
                 if(t.id === action.task.id) {
                     return {
                         isAlterar: action.task.isAlterar,
@@ -56,6 +65,14 @@ export default function taskReducer(tasks, action) {
             });
         }
         case 'excluido' : {
+
+            const selectedTasks = tasks.filter((task) => task.isSelected);
+            selectedTasks.forEach((task) => {
+                fetch('http://localhost:8080/todo-list-mrv/api/v1/task/' + task.id, {
+                    method: 'DELETE'
+                });
+            });
+
             return tasks.filter((task) => !task.isSelected);
         }
         default: {

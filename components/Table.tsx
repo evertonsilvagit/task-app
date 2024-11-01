@@ -9,13 +9,13 @@ export default function Table() {
     const dispatch = useContext(TaskDispatchContext);
 
     return (
-        <table className="min-w-96">
+        <table className="w-6/12 mt-5 ml-auto mr-auto table-fixed">
             <tbody>
                 {
                     data.map((item, index) => {
                         return (
                             <tr key={index} className="shadow-transparent h-20">
-                                <td>
+                                <td className="text-center">
                                     <input 
                                         type="checkbox" 
                                         checked={item.isSelected}
@@ -40,7 +40,7 @@ export default function Table() {
                                         )
                                     }
                                 </td>
-                                <td>
+                                <td className="text-center">
                                     {
                                         !item.isAlterar ? (
                                             <button 
@@ -60,7 +60,9 @@ export default function Table() {
                                         ) : (
                                             <button 
                                                 className="bg-green-500 hover:bg-green-700 text-white rounded w-20 px-5 h-10" 
-                                                onClick={() => dispatch({
+                                                onClick={() => {
+                                                    
+                                                    dispatch({
                                                     type: 'alterado',
                                                     task: {
                                                         id: item.id,
@@ -68,7 +70,7 @@ export default function Table() {
                                                         isAlterar: false,
                                                         description: newDescription
                                                     }
-                                                })}
+                                                })}}
                                             >
                                                 Salvar
                                             </button>

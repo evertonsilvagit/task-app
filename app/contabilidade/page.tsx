@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react"
 
 export default function CalculatePage(){
@@ -33,9 +32,14 @@ export default function CalculatePage(){
 
     return (
         <>
-            <Link className="text-3xl" href="/">Home</Link>
 
-            <table className=" w-10/12 mt-5 ml-auto mr-auto">
+            <div className="flex justify-around">
+                <input type="text" className="mt-5 ml-auto mr-auto h-10" placeholder="Descrição" />   
+                <input type="text" className="mt-5 ml-auto mr-auto h-10" placeholder="Valor" />
+                <input type="text" className="mt-5 ml-auto mr-auto h-10" placeholder="Data" />
+                <button className="mt-5 ml-auto mr-auto h-10 bg-slate-500 text-white">Adicionar</button>
+            </div>
+            <table className="w-10/12 mt-5 ml-auto mr-auto">
                 <thead className="shadow h-14 bg-slate-50">
                     <tr>
                         {data.header.map((col, index) => <th key={index}>{col}</th>)}
