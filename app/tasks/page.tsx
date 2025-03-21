@@ -4,31 +4,33 @@ import React, { useEffect, useReducer, useState } from 'react';
 import Table from '../../components/Table';
 import taskReducer from '../../components/taskReducer';
 import Link from 'next/link';
-import { TaskContext, TaskDispatchContext } from '../../components/TaskContext';
+import { TaskContext, TaskDispatchContext } from '../../components/TaskContext'
 
 async function listTasks() {
-    const res = await fetch('http://localhost:8080/todo-list-mrv/api/v1/task')
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch data')
-      }
-
-    return res.json()
+    try {
+        const res = await fetch('http://192.168.86.219:8080/task-backend/api/v1/task')
+        const taskList = await res.json()
+    
+        return taskList
+    
+    } catch(error) {
+        console.error("Erro ao buscar as tarefas:", error);
+        return []; 
+    }
 }
 
 export default function TasksPage() {
 
-    let initialTasks = listTasks();
-    console.log(initialTasks)
-
-    const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
+    const [tasks, dispatch] = useReducer(taskReducer, []);
     
     useEffect(() => {
         async function fetchTasks() {
-            const tasks = await listTasks();
+            const fetchedTasks = await listTasks();
+            dispatch({ type: 'load', tasks: fetchedTasks })
         }
 
-    });
+        fetchTasks()
+    }, []);
 
     function handleAdicionar(){
         dispatch({

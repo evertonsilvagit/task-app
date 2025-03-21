@@ -11,8 +11,7 @@ export default function Table() {
     return (
         <table className="min-w-96">
             <tbody>
-                {
-                    data.map((item, index) => {
+                {Array.isArray(data) && data.map((item, index) => {
                         return (
                             <tr key={index} className="shadow-transparent h-20">
                                 <td>
@@ -30,14 +29,12 @@ export default function Table() {
                                         })}
                                            />
                                 </td>
-                                <td>{item.id}</td>
                                 <td>
                                     {
-                                        !item.isAlterar ? (<p>{item.text}</p>) : (
-                                            <input 
-                                                placeholder={item.text}
-                                                onChange={(e) => setNewTask(e.target.value)}
-                                                
+                                        !item.isAlterar ? (<p>{item.description}</p>) : (
+                                            <input
+                                                placeholder={item.description}
+                                                onChange={(e) => setNewTask(e.target.value)}                                                
                                             />
                                         )
                                     }
