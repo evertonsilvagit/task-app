@@ -8,7 +8,7 @@ import { TaskContext, TaskDispatchContext } from '../../components/TaskContext'
 
 async function listTasks() {
     try {
-        const res = await fetch('http://192.168.86.219:8080/task-backend/api/v1/task')
+        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL)
         const taskList = await res.json()
     
         return taskList

@@ -21,7 +21,7 @@ export default function taskReducer(tasks, action) {
             return tasks.map((t) => {
                                 
                 if(t.id === action.task.id) {
-                    fetch('http://192.168.86.219:8080/task-backend/api/v1/task/' + action.task.id, {
+                    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/" + action.task.id, {
                         headers: {
                             'Content-Type': 'application/json', // Proper headers
                         },
