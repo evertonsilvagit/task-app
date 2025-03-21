@@ -25,12 +25,12 @@ export default function TasksPage() {
     useEffect(() => {
         async function fetchTasks() {
             const fetchedTasks = await listTasks();
-            dispatch({ type: 'load', tasks: fetchedTasks })
+            dispatch({ type: 'loaded', tasks: fetchedTasks })
         }
         
         fetchTasks().then((data) => {
             dispatch({
-                type: 'listado',
+                type: 'loaded',
                 tasks: data
             });
         });

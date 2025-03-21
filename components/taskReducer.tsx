@@ -1,6 +1,6 @@
 export default function taskReducer(tasks, action) {
     switch (action.type) {
-        case 'load': {
+        case 'loaded': {
             return action.tasks
         }
         case 'adicionado' : {
