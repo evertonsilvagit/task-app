@@ -32,15 +32,9 @@ export default function Table() {
                                 <td>
                                     {
                                         !item.isAlterar ? (<p>{item.description}</p>) : (
-<<<<<<< HEAD
                                             <input
                                                 placeholder={item.description}
                                                 onChange={(e) => setNewTask(e.target.value)}                                                
-=======
-                                            <input 
-                                                placeholder={item.description}
-                                                onChange={(e) => setNewTask(e.target.value)}
->>>>>>> 72eba6d676848d918da55cee2f75317abd6c77b2
                                             />
                                         )
                                     }

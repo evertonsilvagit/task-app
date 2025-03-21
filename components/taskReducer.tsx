@@ -46,7 +46,7 @@ export default function taskReducer(tasks, action) {
 
             const selectedTasks = tasks.filter((task) => task.isSelected);
             selectedTasks.forEach((task) => {
-                fetch('http://localhost:8080/todo-list-mrv/api/v1/task/' + task.id, {
+                fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/" + task.id, {
                     method: 'DELETE'
                 });
             });
