@@ -1,57 +1,82 @@
+import { v4 as uuidv4 } from 'uuid';
+import { trim } from "lodash";
+import { TaskService } from 'app/tasks/task-service';
+
+const taskService: TaskService = new TaskService();
+
 export default function taskReducer(tasks, action) {
     switch (action.type) {
         case 'loaded': {
-            return action.tasks
+            return action.tasks;
         }
-        case 'adicionado' : {
-
-            const nextId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
-
+        case 'added' : {
+            const nextId = uuidv4();
             return [
                 ...tasks,
                 {
                     id: nextId,
                     isAlterar: true,
                     isSelected: false,
-                    description: "Insira um texto"
+                    name: ""
                 }
-            ]   
+            ];
         }
-        case 'alterado' : {
+        case 'changed' : {
+
+            if(trim(action.task.name) === ""){
+                return tasks;
+            }
+
             return tasks.map((t) => {
                                 
                 if(t.id === action.task.id) {
-                    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/" + action.task.id, {
-                        headers: {
-                            'Content-Type': 'application/json', // Proper headers
-                        },
-                        method: 'PUT',
-                        body: JSON.stringify(action.task)
-                    })
-                    .then(() => console.log("Task com id " + action.task.id + " foi alterada."))
-                    .catch(() => console.log("Erro ao salvar a task com id " + action.task.id));
 
-                    return action.task
+                    if(t.name === action.task.name){
+                        return action.task;
+                    }
+
+                    taskService.saveTask(action.task);
+
+                    return action.task;
                 } else {
                     return {
+                        ...t,
                         isAlterar: false,
-                        description: t.description,
+                        name: t.name,
                         id: t.id,
                         isSelected: t.isSelected
                     };
                 }
             });
         }
-        case 'excluido' : {
+        case 'removed' : {
 
             const selectedTasks = tasks.filter((task) => task.isSelected);
-            selectedTasks.forEach((task) => {
-                fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/" + task.id, {
-                    method: 'DELETE'
-                });
-            });
+            selectedTasks.forEach((task) => { taskService.deleteTask(task); });
 
             return tasks.filter((task) => !task.isSelected);
+        }
+        case 'toogled' : {
+
+            taskService.toogleTask(action.task);
+
+            return tasks.map((t) => {
+                if(t.id === action.task.id) { 
+                    if(t.status === "Finalizada") {
+                        return { 
+                            ...t, 
+                            status: "Pendente"
+                        }     
+                    } else {
+                        return { 
+                            ...t, 
+                            status: "Finalizada"
+                        }     
+                    }
+                } else {
+                    return t;
+                } 
+            });
         }
         default: {
             throw Error('Ação desconhecida: ' + action.type);

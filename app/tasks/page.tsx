@@ -1,65 +1,39 @@
 "use client";
-
+import { Plus } from 'lucide-react';
 import React, { useEffect, useReducer } from 'react';
 import Table from '../../components/Table';
 import taskReducer from '../../components/taskReducer';
 import { TaskContext, TaskDispatchContext } from '../../components/TaskContext'
-
-async function listTasks() {
-    try {
-        const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL)
-        const taskList = await res.json()
-    
-        return taskList
-    
-    } catch(error) {
-        console.error("Erro ao buscar as tarefas:", error);
-        return []; 
-    }
-}
+import { TaskService } from './task-service';
 
 export default function TasksPage() {
 
     const [tasks, dispatch] = useReducer(taskReducer, []);
-    
+
     useEffect(() => {
         async function fetchTasks() {
-            const fetchedTasks = await listTasks();
+            const fetchedTasks = await new TaskService().listTasks();
             dispatch({ type: 'loaded', tasks: fetchedTasks })
         }
         
-        fetchTasks().then((data) => {
-            dispatch({
-                type: 'loaded',
-                tasks: data
-            });
-        });
-
         fetchTasks()
     }, []);
 
-    function novaLinhaCriada(){
+    function handleAdd(){
         dispatch({
-            type: 'novaLinhaCriada',
-        })
-    }
-
-    function handleExcluir(){        
-        dispatch({
-            type: 'excluido',
-            task: tasks
+            type: 'added',
         })
     }
 
     return (
         <TaskContext.Provider value={tasks}>
             <TaskDispatchContext.Provider value={dispatch}>
-                <div className="flex items-center flex-col m-10">
+                <div className="flex items-center flex-col m-6">
                     <Table />
-                    <div className="flex justify-center mt-4 gap-6 w-screen">
-                        <button className="bg-green-500 hover:bg-green-700 text-white rounded-full w-40 px-5 h-10" onClick={() => novaLinhaCriada()}>Adicionar</button>
-                        <button className="bg-red-500 hover:bg-red-700 text-white rounded-full w-40 px-5 h-10" onClick={() => handleExcluir()}>Excluir</button>
-                    </div>
+                    <button className="flex items-center bg-slate-300 text-gray-800 hover:bg-gray-800 text-left hover:text-white rounded-sm w-full mt-3 h-14" onClick={() => handleAdd()}>
+                        <Plus className="w-5 ml-7" /> 
+                        <p className="ml-10">Adicionar uma tarefa</p>
+                    </button>
                 </div>
             </TaskDispatchContext.Provider>
         </TaskContext.Provider>
