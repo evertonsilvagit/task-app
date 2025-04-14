@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { trim } from "lodash";
-import { TaskService } from 'app/tasks/task-service';
+import { TaskDispatch } from './TaskContext';
+import { Task } from 'app/tasks/task';
 
-const taskService: TaskService = new TaskService();
-
-export default function taskReducer(tasks, action) {
+export default function taskReducer(tasks: Task[], action: TaskDispatch) {
     switch (action.type) {
         case 'loaded': {
-            return action.tasks;
+            return tasks;
         }
         case 'added' : {
             const nextId = uuidv4();
@@ -35,8 +34,6 @@ export default function taskReducer(tasks, action) {
                         return action.task;
                     }
 
-                    taskService.saveTask(action.task);
-
                     return action.task;
                 } else {
                     return {
@@ -57,8 +54,6 @@ export default function taskReducer(tasks, action) {
             return tasks.filter((task) => !task.isSelected);
         }
         case 'toogled' : {
-
-            taskService.toogleTask(action.task);
 
             return tasks.map((t) => {
                 if(t.id === action.task.id) { 

@@ -1,5 +1,9 @@
 import { createContext } from "react";
 
-export const TaskContext = createContext([]);
+export type TaskDispatch = {
+    type: string;
+    tasks?: any;
+}
 
-export const TaskDispatchContext = createContext(null);
+export const TaskContext = createContext({});
+export const TaskDispatchContext = createContext<TaskDispatch | null >(null);

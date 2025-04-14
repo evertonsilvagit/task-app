@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Task } from "./task";
 import { ApiPageResponse } from 'app/common/api-response';
 import { TaskLocalStorage } from './task-local-storage';
@@ -23,6 +22,9 @@ export class TaskService {
 
     public async saveTask(task: Task): Promise<Task> {
         try {
+
+            this.taskLocalStorage.saveTask(task);
+
             const res: Response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/" + task.id, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ export class TaskService {
             return await res.json();
         } catch(error) {
             console.log("Erro ao salvar a task com id " + task.id);
-            this.taskLocalStorage.addTask(task);
+            this.taskLocalStorage.saveTask(task);
         }
     }
 

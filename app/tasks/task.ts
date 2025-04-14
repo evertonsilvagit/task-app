@@ -3,5 +3,7 @@ export type Task = {
     name: string,
     description: string,
     status: string,
-    order: number    
+    order: number,
+    isAlterar: boolean,
+    isSelected: boolean
 }
