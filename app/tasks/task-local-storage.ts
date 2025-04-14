@@ -40,5 +40,9 @@ export class TaskLocalStorage {
         task.status = task.status === "Finalizada" ? "Pendente" : "Finalizada";
         this.setTasks(tasks);
     }
+    
+    public clearTasks() {
+        localStorage.clear();
+    }
 
 }
