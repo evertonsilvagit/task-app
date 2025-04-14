@@ -38,6 +38,7 @@ export class TaskService {
         } catch(error) {
             console.log("Erro ao salvar a task com id " + task.id);
             this.taskLocalStorage.saveTask(task);
+            return task;
         }
     }
 
@@ -54,6 +55,7 @@ export class TaskService {
             return await res.json();
         } catch(error) {
             console.log("Erro ao salvar a task com id " + task.id);
+            return task;
         }
     }
 
