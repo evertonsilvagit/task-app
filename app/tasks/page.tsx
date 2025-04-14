@@ -39,7 +39,7 @@ export default function TasksPage() {
     return (
         <TaskContext.Provider value={{ tasks, setTasks }}>
                 <div className="flex items-center flex-col m-6">
-                    <JSONPretty id="json-pretty" data={tasks}></JSONPretty>
+                    {/* <JSONPretty id="json-pretty" data={tasks}></JSONPretty> */}
                     <Table />
                     <button className="flex items-center bg-slate-300 text-gray-800 hover:bg-gray-800 text-left hover:text-white rounded-sm w-full mt-3 h-14" onClick={() => newLine()}>
                         <Plus className="w-5 ml-7" /> 
