@@ -7,6 +7,7 @@ export type TaskDispatch = {
 }
 
 const tasks: Task[] = [];
+const setTasks: (tasks: Task[]) => void = () => {};
 
-export const TaskContext = createContext({ tasks, setTasks: (tasks: Task[]) => {} });
+export const TaskContext = createContext({ tasks, setTasks });
 export const TaskDispatchContext = createContext<TaskDispatch | null >(null);
